@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">MosPolytech</string>
+    <string name="mospol">Московский /nПолитех\n</string>
+    <string name="mos_pol">Московский \nПолитех</string>
+
+
+    <array name="directions">
+        <item>-</item>
+        <item>Русский</item>
+        <item>Математика(Профиль)</item>
+        <item>Математика</item>
+        <item>Информатика</item>
+
+    </array>
+
+    <array name="EdLevel">
+        <item>-</item>
+        <item>Бакалавриат</item>
+        <item>Специалитет</item>
+        <item>Магистратура</item>
+    </array>
+</resources>
