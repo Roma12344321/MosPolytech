@@ -1,6 +1,8 @@
 package com.example.mospolytech.domain
 
-class AddDirectionUseCase(private val directionRepository: DirectionRepository) {
+import javax.inject.Inject
+
+class AddDirectionUseCase @Inject constructor(private val directionRepository: DirectionRepository) {
     fun addDirection(direction: Direction){
         directionRepository.addDirection(direction)
     }

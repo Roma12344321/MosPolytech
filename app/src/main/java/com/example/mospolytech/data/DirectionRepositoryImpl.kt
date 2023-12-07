@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mospolytech.domain.Direction
 import com.example.mospolytech.domain.DirectionRepository
+import javax.inject.Inject
 
-object DirectionRepositoryImpl : DirectionRepository {
+class DirectionRepositoryImpl @Inject constructor() : DirectionRepository {
 
     private val directionList = mutableListOf<Direction>()
     private val directionLiveData = MutableLiveData<List<Direction>>()

@@ -6,18 +6,19 @@ import com.example.mospolytech.data.DirectionRepositoryImpl
 import com.example.mospolytech.domain.AddDirectionUseCase
 import com.example.mospolytech.domain.Direction
 import com.example.mospolytech.domain.GetAllDirectionUseCase
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val addDirectionUseCase: AddDirectionUseCase,
+    private val getAllDirectionUseCase: GetAllDirectionUseCase
+) : ViewModel() {
 
-    private val repository = DirectionRepositoryImpl
-    private val addDirectionUseCase = AddDirectionUseCase(repository)
-    private val getAllDirectionUseCase = GetAllDirectionUseCase(repository)
 
-    fun getAllDirection() : LiveData<List<Direction>>{
+    fun getAllDirection(): LiveData<List<Direction>> {
         return getAllDirectionUseCase.getAllDirection()
     }
 
-    fun addDirection(direction: Direction){
+    fun addDirection(direction: Direction) {
         addDirectionUseCase.addDirection(direction)
     }
 }
