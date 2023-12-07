@@ -37,10 +37,10 @@ class MainFragment : Fragment() {
                 add(third)
                 add(level)
             }
-            if (list.contains("Русский") && list.contains("Математика(Профиль)") && (list.contains("Информатика") || list.contains("Физика")) && list.contains("Бакалавриат"))
-            {
-                launchInfRusMathFragment()
-            }
+//            if (list.contains("Русский") && list.contains("Математика(Профиль)") && (list.contains("Информатика") || list.contains("Физика")) && list.contains("Бакалавриат"))
+//            {
+            launchInfRusMathFragment()
+//            }
         }
     }
 

@@ -6,7 +6,9 @@ import com.example.mospolytech.domain.Direction
 import com.example.mospolytech.domain.DirectionRepository
 import javax.inject.Inject
 
-class DirectionRepositoryImpl @Inject constructor() : DirectionRepository {
+class DirectionRepositoryImpl @Inject constructor(
+    private val directionsDao: DirectionsDao
+) : DirectionRepository {
 
     private val directionList = mutableListOf<Direction>()
     private val directionLiveData = MutableLiveData<List<Direction>>()
@@ -56,5 +58,21 @@ class DirectionRepositoryImpl @Inject constructor() : DirectionRepository {
 
     private fun update() {
         directionLiveData.value = directionList.toList()
+    }
+
+    override fun addFavouriteDirection(direction: Direction) {
+        directionsDao.addFavouriteDirection(direction)
+    }
+
+    override fun deleteFavouriteDirection(id: Int) {
+        directionsDao.getFavouriteDirection(id)
+    }
+
+    override fun getFavouriteDirection(id: Int): Direction {
+        return directionsDao.getFavouriteDirection(id)
+    }
+
+    override fun getAllFavouriteDirection(): LiveData<List<Direction>> {
+        return directionsDao.getAllFavouriteDirections()
     }
 }
