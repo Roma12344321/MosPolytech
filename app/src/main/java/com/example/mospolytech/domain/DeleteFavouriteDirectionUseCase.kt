@@ -5,7 +5,7 @@ import javax.inject.Inject
 class DeleteFavouriteDirectionUseCase @Inject constructor(
     private val repository: DirectionRepository
 ) {
-    fun deleteFavouriteDirection(id: Int) {
+    suspend fun deleteFavouriteDirection(id: Int) {
         repository.deleteFavouriteDirection(id)
     }
 }

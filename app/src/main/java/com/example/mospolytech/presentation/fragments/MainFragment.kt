@@ -26,6 +26,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.textViewFavourite.setOnClickListener {
+            launchFavouriteFragment()
+        }
         binding.buttonFind.setOnClickListener {
             val first = binding.spinnerdir.selectedItem.toString()
             val second = binding.spinnerdir2.selectedItem.toString()
@@ -37,11 +40,20 @@ class MainFragment : Fragment() {
                 add(third)
                 add(level)
             }
-//            if (list.contains("Русский") && list.contains("Математика(Профиль)") && (list.contains("Информатика") || list.contains("Физика")) && list.contains("Бакалавриат"))
-//            {
-            launchInfRusMathFragment()
-//            }
+            if (list.contains("Русский") && list.contains("Математика(Профиль)") && (list.contains("Информатика") || list.contains(
+                    "Физика"
+                )) && list.contains("Бакалавриат")
+            ) {
+                launchInfRusMathFragment()
+            }
         }
+    }
+
+    private fun launchFavouriteFragment() {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, FavouriteFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun launchInfRusMathFragment() {

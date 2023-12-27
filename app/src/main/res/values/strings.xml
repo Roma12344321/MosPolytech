@@ -2,6 +2,7 @@
     <string name="app_name">MosPolytech</string>
     <string name="mospol">Московский /nПолитех\n</string>
     <string name="mos_pol">Московский \nПолитех</string>
+    <string name="_01_03_02">01.03.02 Прикладная математика и информатика</string>
 
 
     <array name="directions">

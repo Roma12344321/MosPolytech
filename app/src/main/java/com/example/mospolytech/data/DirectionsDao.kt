@@ -12,10 +12,10 @@ interface DirectionsDao {
     fun getAllFavouriteDirections(): LiveData<List<Direction>>
 
     @Query("SELECT * FROM directions WHERE id=:id")
-    fun getFavouriteDirection(id: Int): Direction
+    fun getFavouriteDirection(id: Int): LiveData<Direction>
 
     @Insert
-    fun addFavouriteDirection(direction: Direction)
+    suspend fun addFavouriteDirection(direction: Direction)
     @Query("DELETE FROM directions WHERE id=:id")
-    fun deleteFavouriteDirection(id:Int)
+    suspend fun deleteFavouriteDirection(id:Int)
 }

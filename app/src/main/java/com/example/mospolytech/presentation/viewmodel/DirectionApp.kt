@@ -6,7 +6,7 @@ import com.example.mospolytech.di.DaggerApplicationComponent
 class DirectionApp : Application() {
 
     val component by lazy {
-        DaggerApplicationComponent.factory().create(this)
+        DaggerApplicationComponent.factory().create(this,this)
     }
 
 }

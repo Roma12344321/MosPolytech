@@ -18,7 +18,7 @@
             android:id="@+id/textViewNameDirection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxEms="15"
+            android:maxEms="13"
             android:gravity="center"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -59,6 +59,15 @@
                 android:textStyle="bold"
                 tools:text="245" />
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/imageViewStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@android:drawable/star_big_off" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

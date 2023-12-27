@@ -56,7 +56,7 @@ class InfMathRusFragment : Fragment() {
         setUpRecyclerView()
     }
 
-    fun launchDetailFragment(direction: Direction){
+    private fun launchDetailFragment(direction: Direction){
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.main_container, DetailActivityFragment.newInstance(direction))
             .addToBackStack(null)
@@ -68,7 +68,7 @@ class InfMathRusFragment : Fragment() {
         viewModel.getAllDirection().observe(viewLifecycleOwner) {
             directionAdapter.submitList(it)
         }
-        directionAdapter.onItemClickListener = object : DirectionAdapter.OnItemClickListener{
+        directionAdapter.onItemClickListener = object : DirectionAdapter.OnItemClickListener {
             override fun onItemClick(direction: Direction) {
                 launchDetailFragment(direction)
             }
