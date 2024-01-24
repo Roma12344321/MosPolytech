@@ -57,28 +57,37 @@ class DetailActivityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            textViewDetailInformation.text = direction.name
-            textViewTextObjects.text = direction.text
-            textViewWork.text = direction.work
-            textViewAdvantages.text = direction.advantages
-        }
-        val starOff = ContextCompat.getDrawable(requireContext(), android.R.drawable.star_big_off)
-        val starOn = ContextCompat.getDrawable(requireContext(), android.R.drawable.star_big_on)
-        viewModel.getFavouriteDirection(direction.id).observe(viewLifecycleOwner) {
-            if (it == null) {
-                binding.imageView.setImageDrawable(starOff)
-                binding.imageView.setOnClickListener {
-                    viewModel.addFavouriteDirection(direction)
-                }
-            } else {
-                binding.imageView.setImageDrawable(starOn)
-                binding.imageView.setOnClickListener {
-                    viewModel.deleteFavouriteDirection(direction.id)
-                }
+        viewModel.getDirection(direction)
+        viewModel.direction.observe(viewLifecycleOwner) {
+            with(binding) {
+                textViewDetailInformation.text = it.name
+                textViewTextObjects.text = it.text
+                textViewWork.text = it.work
+                textViewAdvantages.text = it.advantages
             }
         }
+        setStar()
     }
+
+    private fun setStar() {
+        val starOff = ContextCompat.getDrawable(requireContext(), android.R.drawable.star_big_off)
+        val starOn = ContextCompat.getDrawable(requireContext(), android.R.drawable.star_big_on)
+        viewModel.getFavouriteDirection(direction.id)
+            .observe(viewLifecycleOwner) { itDir: Direction ->
+                if (!itDir.favourite) {
+                    binding.imageView.setImageDrawable(starOff)
+                    binding.imageView.setOnClickListener {
+                        viewModel.changeFavouriteState(itDir)
+                    }
+                } else {
+                    binding.imageView.setImageDrawable(starOn)
+                    binding.imageView.setOnClickListener {
+                        viewModel.changeFavouriteState(itDir)
+                    }
+                }
+            }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

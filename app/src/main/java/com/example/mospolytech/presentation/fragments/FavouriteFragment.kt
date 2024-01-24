@@ -53,10 +53,15 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpRecyclerView()
+    }
+
+    private fun setUpRecyclerView() {
         binding.recyclerViewFavourite.adapter = adapter
         viewModel.allFavouriteDirection.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            if (it.isEmpty()) {
+            val list = it.filter { it.favourite }
+            adapter.submitList(list)
+            if (list.isEmpty()) {
                 binding.textViewNothingInFavourite.visibility = View.VISIBLE
             } else {
                 binding.textViewNothingInFavourite.visibility = View.GONE
@@ -65,6 +70,11 @@ class FavouriteFragment : Fragment() {
         adapter.onItemClickListener = object : DirectionAdapter.OnItemClickListener {
             override fun onItemClick(direction: Direction) {
                 launchDetailFragment(direction)
+            }
+        }
+        adapter.onStarClickListener = object : DirectionAdapter.OnStarClickListener {
+            override fun onStarClick(direction: Direction) {
+                viewModel.changeFavouriteState(direction)
             }
         }
     }

@@ -2,10 +2,10 @@ package com.example.mospolytech.di
 
 import android.app.Application
 import android.content.Context
-import androidx.fragment.app.Fragment
 import com.example.mospolytech.presentation.fragments.DetailActivityFragment
 import com.example.mospolytech.presentation.fragments.FavouriteFragment
-import com.example.mospolytech.presentation.fragments.InfMathRusFragment
+import com.example.mospolytech.presentation.fragments.DirectionListFragment
+import com.example.mospolytech.presentation.fragments.MainFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -13,9 +13,10 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [DataModule::class,ViewModelModule::class])
 interface ApplicationComponent {
-    fun inject(fragment: InfMathRusFragment)
+    fun inject(fragment: DirectionListFragment)
     fun inject(fragment: DetailActivityFragment)
     fun inject(fragment: FavouriteFragment)
+    fun inject(fragment: MainFragment)
 
     @Component.Factory
     interface Factory {

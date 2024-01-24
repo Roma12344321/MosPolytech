@@ -14,8 +14,9 @@ data class Direction(
     val passScore: String,
     val text: String,
     val work: String,
-    val advantages : String,
-    val favourite :Boolean = false
+    val advantages: String,
+    val objects: String,
+    val favourite: Boolean = false,
 //    val code : String,
 //    val speciality : String,
 //    val fac : String,
@@ -25,7 +26,6 @@ data class Direction(
 //    val budget : Int,
 //    val plat : Int,
 //    val cost : String,
-//    val objects: String,
 //    val profileObjects : String,
 //    val skills : String
 ) : Parcelable

@@ -1,23 +1,20 @@
 package com.example.mospolytech.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mospolytech.data.DirectionRepositoryImpl
-import com.example.mospolytech.domain.AddDirectionUseCase
 import com.example.mospolytech.domain.AddFavouriteDirectionUseCase
 import com.example.mospolytech.domain.DeleteFavouriteDirectionUseCase
 import com.example.mospolytech.domain.Direction
-import com.example.mospolytech.domain.GetAllDirectionUseCase
 import com.example.mospolytech.domain.GetAllFavouriteDirectionUseCase
 import com.example.mospolytech.domain.GetFavouriteDirectionUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val addDirectionUseCase: AddDirectionUseCase,
-    private val getAllDirectionUseCase: GetAllDirectionUseCase,
     private val addFavouriteDirectionUseCase: AddFavouriteDirectionUseCase,
     private val deleteFavouriteDirectionUseCase: DeleteFavouriteDirectionUseCase,
     private val getAllFavouriteDirectionUseCase: GetAllFavouriteDirectionUseCase,
@@ -25,13 +22,10 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val scope = CoroutineScope(Dispatchers.Main)
-    fun getAllDirection(): LiveData<List<Direction>> {
-        return getAllDirectionUseCase.getAllDirection()
-    }
 
-    fun addDirection(direction: Direction) {
-        addDirectionUseCase.addDirection(direction)
-    }
+    private val _direction = MutableLiveData<Direction>()
+    val direction : LiveData<Direction>
+        get() = _direction
 
     fun addFavouriteDirection(direction: Direction) {
         scope.launch {
@@ -49,5 +43,21 @@ class MainViewModel @Inject constructor(
 
     fun getFavouriteDirection(id: Int) : LiveData<Direction> {
         return getFavouriteDirectionUseCase.getFavouriteDirection(id)
+    }
+
+    fun changeFavouriteState(direction: Direction){
+        scope.launch {
+            val newItem = direction.copy(favourite = !direction.favourite)
+            addFavouriteDirectionUseCase.addFavouriteDirection(newItem)
+        }
+    }
+
+    fun getDirection(direction: Direction) {
+        _direction.value = direction
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        scope.cancel()
     }
 }

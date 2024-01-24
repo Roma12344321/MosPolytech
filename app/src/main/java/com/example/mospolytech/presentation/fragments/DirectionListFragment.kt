@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.mospolytech.R
-import com.example.mospolytech.databinding.FragmentInfrusmathBinding
+import com.example.mospolytech.databinding.FragmentDirectionListBinding
 import com.example.mospolytech.domain.Direction
 import com.example.mospolytech.presentation.viewmodel.MainViewModel
 import com.example.mospolytech.presentation.adapter.DirectionAdapter
@@ -16,7 +17,9 @@ import com.example.mospolytech.presentation.viewmodel.DirectionApp
 import com.example.mospolytech.presentation.viewmodel.ViewModelFactory
 import javax.inject.Inject
 
-class InfMathRusFragment : Fragment() {
+class DirectionListFragment : Fragment() {
+
+    private lateinit var obj: String
 
     @Inject
     lateinit var viewModelFactory : ViewModelFactory
@@ -33,8 +36,8 @@ class InfMathRusFragment : Fragment() {
         (requireActivity().application as DirectionApp).component
     }
 
-    private var _binding: FragmentInfrusmathBinding? = null
-    private val binding: FragmentInfrusmathBinding
+    private var _binding: FragmentDirectionListBinding? = null
+    private val binding: FragmentDirectionListBinding
         get() = _binding ?: throw RuntimeException("binding = null")
 
     override fun onAttach(context: Context) {
@@ -47,13 +50,18 @@ class InfMathRusFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentInfrusmathBinding.inflate(inflater, container, false)
+        _binding = FragmentDirectionListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        parseArgs()
         setUpRecyclerView()
+        if (obj == EMPTY) {
+            binding.textViewEmpty.visibility = View.VISIBLE
+            Toast.makeText(context,"Ничего не было найдено",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun launchDetailFragment(direction: Direction){
@@ -65,13 +73,29 @@ class InfMathRusFragment : Fragment() {
 
     private fun setUpRecyclerView() {
         binding.recyclerViewDirection.adapter = directionAdapter
-        viewModel.getAllDirection().observe(viewLifecycleOwner) {
-            directionAdapter.submitList(it)
+        binding.recyclerViewDirection.itemAnimator = null
+        viewModel.allFavouriteDirection.observe(viewLifecycleOwner) {
+            directionAdapter.submitList(it.filter { it.objects == obj })
         }
+        setUpCkickListeners()
+    }
+
+    private fun setUpCkickListeners() {
         directionAdapter.onItemClickListener = object : DirectionAdapter.OnItemClickListener {
             override fun onItemClick(direction: Direction) {
                 launchDetailFragment(direction)
             }
+        }
+        directionAdapter.onStarClickListener = object : DirectionAdapter.OnStarClickListener {
+            override fun onStarClick(direction: Direction) {
+                viewModel.changeFavouriteState(direction)
+            }
+        }
+    }
+
+    private fun parseArgs() {
+        requireArguments().getString(OBJECT_KEY)?.let {
+            obj = it
         }
     }
 
@@ -82,8 +106,17 @@ class InfMathRusFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): InfMathRusFragment {
-            return InfMathRusFragment()
+
+        const val EMPTY = ""
+        const val RUS_MATH_INF = "Русский Математика Информатика"
+
+        private const val OBJECT_KEY = "Русский Математика Информатика"
+        fun newInstance(obj:String): DirectionListFragment {
+            return DirectionListFragment().apply {
+                arguments = Bundle().apply {
+                    putString(OBJECT_KEY,obj)
+                }
+            }
         }
     }
 }
